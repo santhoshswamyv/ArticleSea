@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.multipart.maxSize" value="10485760" />
+	<constant name="struts.params.maxLength" value="10485760" />
+
+	<package name="default" extends="struts-default">
+		<action name="dologin"
+			class="com.santhosh.authentication.LoginAction"
+			method="redirectLogin">
+			<result name="success" type="dispatcher">jsp/login.jsp</result>
+		</action>
+		<action name="dosignup"
+			class="com.santhosh.authentication.SignupAction"
+			method="redirectSignup">
+			<result name="success" type="dispatcher">jsp/signup.jsp</result>
+		</action>
+		<action name="doresetpassword"
+			class="com.santhosh.authentication.LoginAction"
+			method="redirectResetPassword">
+			<result name="success" type="dispatcher">jsp/resetpassword.jsp</result>
+		</action>
+		<action name="login"
+			class="com.santhosh.authentication.LoginAction">
+			<result name="success" type="redirect">/home</result>
+			<result name="error" type="dispatcher">jsp/signup.jsp</result>
+			<result name="incpwd" type="dispatcher">jsp/login.jsp</result>
+			<result name="unxerror" type="dispatcher">jsp/login.jsp</result>
+		</action>
+		<action name="signup"
+			class="com.santhosh.authentication.SignupAction">
+			<result name="success" type="redirect">/home</result>
+			<result name="error">jsp/signup.jsp</result>
+		</action>
+		<action name="resetpassword"
+			class="com.santhosh.service.ProfileService" method="resetPassword">
+			<result name="success" type="dispatcher">jsp/login.jsp</result>
+			<result name="error" type="dispatcher">jsp/resetpassword.jsp</result>
+			<result name="unxerror" type="dispatcher">jsp/resetpassword.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="showprofile"
+			class="com.santhosh.service.ProfileService" method="redirectProfile">
+			<result name="success" type="dispatcher">jsp/profile.jsp</result>
+			<result name="error" type="dispatcher">jsp/profile.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="updateprofile"
+			class="com.santhosh.service.ProfileService">
+			<result name="success" type="redirect">/showprofile</result>
+			<result name="error" type="dispatcher">jsp/profile.jsp</result>
+			<result name="unxerror" type="dispatcher">jsp/profile.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="dopostarticle"
+			class="com.santhosh.service.PostArticleService"
+			method="redirectPostArticle">
+			<result name="success">jsp/postarticle.jsp</result>
+			<result name="error">/dopostarticle</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="postarticle"
+			class="com.santhosh.service.PostArticleService">
+			<result name="success" type="redirect">/home</result>
+			<result name="error" type="dispatcher">jsp/postarticle.jsp</result>
+			<result name="input" type="dispatcher">jsp/postarticle.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="home" class="com.santhosh.service.HomeService">
+			<result name="success" type="dispatcher">jsp/home.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="myposts" class="com.santhosh.service.HomeService" method="viewUserArticle">
+			<result name="success" type="dispatcher">jsp/myposts.jsp</result>
+			<result name="error" type="dispatcher">jsp/myposts.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+		<action name="viewarticle"
+			class="com.santhosh.service.HomeService" method="viewArticle">
+			<result name="success">/viewarticle</result>
+			<result name="error" type="redirect">/jsp/viewarticle.jsp</result>
+			<result name="unauth" type="redirect">/dologin</result>
+		</action>
+
+		<action name="logout"
+			class="com.santhosh.authentication.LogoutAction">
+			<result name="success" type="redirect">/dologin</result>
+		</action>
+	</package>
+</struts>
